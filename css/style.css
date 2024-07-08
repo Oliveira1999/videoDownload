@@ -94,3 +94,10 @@ footer p {
     color: #FFF;
 }
 
+#video-link {
+    display: block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+  }
+  

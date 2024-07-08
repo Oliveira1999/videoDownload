@@ -9,6 +9,7 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
   <!-- Scripts (jQuery não pode ser o slim que vem do Boostrap) -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -32,7 +33,7 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbar-links">
           <div class="navbar-nav">
             <a class="nav-item nav-link" id="home-menu" href="#">Video Download</a>
-            <a class="nav-item nav-link" id="contact-menu" href="#">Contato</a>
+            <a class="nav-item nav-link" id="contact-menu" data-toggle="modal" data-target="#modal-contato" href="#">Contato</a>
           </div>
         </div>
       </nav>
@@ -52,6 +53,7 @@
     <div class="card-body d-flex">
       <div class="flex-grow-1">
         <h5 class="card-title" id="video-title"></h5>
+        <a href="#" id="video-link" target="_blank" style="display: none; color: #FF0000;"><i class="fab fa-youtube"></i> Assistir ao Vídeo no YouTube</a> <!-- Novo elemento de link -->
         <div class="d-flex align-items-start">
           <img id="video-thumbnail" class="img-fluid mr-3" src="" alt="Thumbnail do vídeo">
           <table class="table table-bordered">
@@ -66,63 +68,97 @@
               <tr>
                 <td>MP4 (Vídeo)</td>
                 <td id="video-size"></td>
-                <td><button  type="button" id="download-video" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Vídeo</button></td>
+                <td><button type="button" id="download-video" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Vídeo</button></td>
               </tr>
               <tr>
                 <td>MP3 (Áudio)</td>
                 <td id="audio-size"></td>
-                <td><button   type="button" id="download-audio" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Áudio</button></td>
+                <td><button type="button" id="download-audio" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Áudio</button></td>
               </tr>
             </tbody>
           </table>
-         
         </div>
         <p class="card-text" id="video-description"></p>
       </div>
     </div>
-     <!-- Barra de progresso -->
-         <!-- Barra de progresso -->
-<div class="progress" id="progress" style="margin-top: 10px; margin-bottom: 5px; display: none;">
-  <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
+    <!-- Barra de progresso -->
+    <div class="progress" id="progress" style="margin-top: 10px; margin-bottom: 5px; display: none;">
+      <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
 
-
-
-          <!-- Mensagem de aguarde -->
-          <div id="loading-message" class="text-center mt-2" style="display: none;">
-            <i class="fas fa-spinner fa-spin fa-2x"></i>
-            <p>Aguarde um momento...</p>
-          </div>
-          <!-- Mensagem de download concluído -->
-          <div id="downloaded-message" class="alert alert-success text-center mt-2" style="display: none;">
-            <strong>Download concluído!</strong>
-          </div>
+    <!-- Mensagem de aguarde -->
+    <div id="loading-message" class="text-center mt-2" style="display: none;">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <p>Aguarde um momento...</p>
+    </div>
+    <!-- Mensagem de download concluído -->
+    <div id="downloaded-message" class="alert alert-success text-center mt-2" style="display: none;">
+      <strong>Download concluído!</strong>
+    </div>
   </div>
 
+  <footer class="d-flex justify-content-center align-items-center">
+    <p class="mb-0">&copy; 2024 Seu Site. Todos os direitos reservados.</p>
+    <a href="#" data-toggle="modal" data-target="#modal-politica" style="color: #FFF; font-size: 15px; text-decoration: underline; margin-left: 10px;">Política de Privacidade</a>
+  </footer>
 
- <footer class="d-flex justify-content-center align-items-center">
-  <p class="mb-0">&copy; 2024 Seu Site. Todos os direitos reservados.</p>
-  <a href="#" data-toggle="modal" data-target="#modal-politica" style="color: #FFF; font-size: 15px; text-decoration: underline; margin-left: 10px;">Política de Privacidade</a>
-</footer>
-
-
-<div class="modal fade" id="modal-politica" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Política de Privacidade</h5>
-       
-      </div>
-      <div class="modal-body">
-      O [Nome do Site] não coleta informações pessoais dos seus visitantes. Nosso objetivo é oferecer uma
-       experiência segura e protegida para todos os usuários do nosso site. Não armazenamos dados sobre os vídeos ou áudios que você baixa.
-      </div>
-      <div class="modal-footer">
-       
+ 
+ <!-- MODAL POLÍTICA -->
+ <div class="modal fade" id="modal-politica" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Política de Privacidade</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Aqui vai a sua política de privacidade...</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi euismod, quam ac volutpat tempor, velit erat ultricies lectus, id luctus quam purus sit amet libero. Nullam eget ligula a nisl consectetur rhoncus. Sed in ipsum orci. Phasellus nec libero odio. In vehicula purus nec justo ultrices, ut ultrices velit luctus.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- MODAL CONTATO -->
+  <div class="modal fade" id="modal-contato" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Contato</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="contact-form" method="post">
+            <div class="form-group">
+              <label for="name">Nome:</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail:</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Mensagem:</label>
+              <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts personalizados -->
+  <script src="js/main.js"></script>
+</body>
+</html>
 
   <script>
     const API_KEY = 'AIzaSyC7TMz0gFDq6OOSak_Q94SlmMsfgqGgwI8';
@@ -133,35 +169,39 @@
       return urlObj.searchParams.get('v');
     }
 
-    // Função para buscar informações do vídeo do YouTube
     function fetchYouTubeVideo(videoId) {
-      $.ajax({
-        url: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${API_KEY}&part=snippet,contentDetails`,
-        method: 'GET',
-        success: function(response) {
-          if (response.items.length > 0) {
-            const video = response.items[0];
-            const snippet = video.snippet;
-            const duration = moment.duration(video.contentDetails.duration).asSeconds();
+  $.ajax({
+    url: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${API_KEY}&part=snippet,contentDetails`,
+    method: 'GET',
+    success: function(response) {
+      if (response.items.length > 0) {
+        const video = response.items[0];
+        const snippet = video.snippet;
+        const duration = moment.duration(video.contentDetails.duration).asSeconds();
 
-            $('#video-title').text(snippet.title);
-            $('#video-thumbnail').attr('src', snippet.thumbnails.high.url);
-            $('#video-card').show();
+        $('#video-title').text(snippet.title);
+        $('#video-thumbnail').attr('src', snippet.thumbnails.high.url);
+        $('#video-card').show();
 
-            calculateFileSize(duration);
+        // Adicionar link do vídeo
+        const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+        $('#video-link').attr('href', videoUrl).show();
 
-            // Modificado para buscar o melhor formato de vídeo disponível
-            $('#download-video').data('href', `baixarVideo.php?videoId=${videoId}&quality=best`);
-            $('#download-audio').data('href', `baixarAudio.php?videoIdAudio=${videoId}`); // Adiciona link para baixar áudio
-          } else {
-            alert('Vídeo não encontrado');
-          }
-        },
-        error: function() {
-          alert('Erro ao buscar o vídeo');
-        }
-      });
+        calculateFileSize(duration);
+
+        // Modificado para buscar o melhor formato de vídeo disponível
+        $('#download-video').data('href', `baixarVideo.php?videoId=${videoId}&quality=best`);
+        $('#download-audio').data('href', `baixarAudio.php?videoIdAudio=${videoId}`); // Adiciona link para baixar áudio
+      } else {
+        alert('Vídeo não encontrado');
+      }
+    },
+    error: function() {
+      alert('Erro ao buscar o vídeo');
     }
+  });
+}
+
 
     // Função para calcular o tamanho do arquivo de vídeo
     function calculateFileSize(duration) {
