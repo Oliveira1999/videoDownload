@@ -102,16 +102,27 @@
 
  <footer class="d-flex justify-content-center align-items-center">
   <p class="mb-0">&copy; 2024 Seu Site. Todos os direitos reservados.</p>
-  <a href="#" data-toggle="modal" data-target=".modal-politica" style="color: #FFF; font-size: 15px; text-decoration: underline; margin-left: 10px;">Política de Privacidade</a>
+  <a href="#" data-toggle="modal" data-target="#modal-politica" style="color: #FFF; font-size: 15px; text-decoration: underline; margin-left: 10px;">Política de Privacidade</a>
 </footer>
-<div class="modal fade modal-politica" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+
+
+<div class="modal fade" id="modal-politica" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
     <div class="modal-content">
-      ...
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Política de Privacidade</h5>
+       
+      </div>
+      <div class="modal-body">
+      O [Nome do Site] não coleta informações pessoais dos seus visitantes. Nosso objetivo é oferecer uma
+       experiência segura e protegida para todos os usuários do nosso site. Não armazenamos dados sobre os vídeos ou áudios que você baixa.
+      </div>
+      <div class="modal-footer">
+       
+      </div>
     </div>
   </div>
 </div>
-
 
   <script>
     const API_KEY = 'AIzaSyC7TMz0gFDq6OOSak_Q94SlmMsfgqGgwI8';

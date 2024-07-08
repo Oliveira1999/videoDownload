@@ -11,7 +11,7 @@ if (count($res) == 0) {
 if (isset($_GET['videoIdAudio'])) {
     $videoId = escapeshellarg($_GET['videoIdAudio']);
     $outputDir = 'downloads/'; // Diretório para downloads
-    $ffmpegPath = 'C:/xampp/htdocs/videoProjeto/ffmpeg/bin'; // Caminho para o ffmpeg
+    $ffmpegPath = 'C:/xampp/htdocs/videoDownload/ffmpeg/bin'; // Caminho para o ffmpeg
 
     // Certifique-se que a pasta 'downloads' existe e tem permissão de escrita
     if (!file_exists($outputDir)) {
