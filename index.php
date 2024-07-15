@@ -31,6 +31,12 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-center" id="navbar-links">
+       <!-- <div class="navbar-nav mr-auto">-->
+        <!-- Seletor de cor -->
+       <!-- <input type="color" id="navbar-color-picker" value="#343a40" style="margin-left: 800px;">-->
+        <!-- Botão para aplicar a cor -->
+        
+     <!-- </div>-->
           <div class="navbar-nav">
             <a class="nav-item nav-link" id="home-menu" href="#">Video Download</a>
             <a class="nav-item nav-link" id="contact-menu" data-toggle="modal" data-target="#modal-contato" href="#">Contato</a>
@@ -100,6 +106,7 @@
   <footer class="d-flex justify-content-center align-items-center">
     <p class="mb-0">&copy; 2024 Seu Site. Todos os direitos reservados.</p>
     <a href="#" data-toggle="modal" data-target="#modal-politica" style="color: #FFF; font-size: 15px; text-decoration: underline; margin-left: 10px;">Política de Privacidade</a>
+ 
   </footer>
 
  
@@ -306,3 +313,19 @@ function startDownload(url, filename) {
   </script>
 </body>
 </html>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Seleciona o elemento do seletor de cor
+    const navbarColorPicker = document.getElementById('navbar-color-picker');
+
+    // Adiciona um evento de mudança à paleta de cor
+    navbarColorPicker.addEventListener('input', function() {
+      // Obtém a cor selecionada
+      const selectedColor = navbarColorPicker.value;
+      
+      // Aplica a cor à barra de navegação
+      const navbar = document.querySelector('.navbar');
+      navbar.style.backgroundColor = selectedColor;
+    });
+  });
+</script>
