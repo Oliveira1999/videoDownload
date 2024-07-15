@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Downloader</title>
+  <title>DLoader</title>
   <!-- Fonte -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
   <!-- Estilos -->
@@ -20,13 +20,65 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.3.2/moment-duration-format.min.js"></script>
 </head>
+
+<style>
+    .rating-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .rating {
+      display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+    }
+
+    .rating > input {
+      display: none;
+    }
+
+    .rating > label {
+      position: relative;
+      width: 1em;
+      font-size: 3rem;
+      color: #ddd; /* Cor inicial das estrelas não selecionadas */
+      cursor: pointer;
+    }
+
+    .rating > label::before {
+      content: "\2605";
+      position: absolute;
+      display: block;
+    }
+
+    .rating > input:checked ~ label {
+      color: #FFD700; /* Cor das estrelas selecionadas */
+    }
+
+    .rating:not(:checked) > label:hover,
+    .rating:not(:checked) > label:hover ~ label {
+      color: #FFD700; /* Cor das estrelas ao passar o mouse */
+    }
+
+    .rating > input:checked + label:hover,
+    .rating > input:checked + label:hover ~ label,
+    .rating > input:checked ~ label:hover,
+    .rating > input:checked ~ label:hover ~ label,
+    .rating > label:hover ~ input:checked ~ label {
+      color: #FFD700; /* Cor das estrelas selecionadas ao passar o mouse */
+    }
+  </style>
 <body>
   <header>
     <div class="container" id="nav-container">
       <nav class="navbar navbar-expand-lg fixed-top navbar-dark">
-        <a class="navbar-brand" href="index.html">
-          <img id="logo" src="img/hdcagency_logo.svg" alt="hDC Agency"> hDC Agency
-        </a>
+      <a class="navbar-brand" href="#" style="color:#000">
+  <img id="logo" src="img/2n.png" alt="DLoader" style="width: 120px;">
+  
+</a>
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-links" aria-controls="navbar-links" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -37,8 +89,8 @@
         <!-- Botão para aplicar a cor -->
         
      <!-- </div>-->
-          <div class="navbar-nav">
-            <a class="nav-item nav-link" id="home-menu" href="#">Video Download</a>
+          <div class="navbar-nav text-nav">
+            <a class="nav-item nav-link" data-toggle="modal" data-target="#modal-dloader" id="home-menu" href="#">DLoader</a>
             <a class="nav-item nav-link" id="contact-menu" data-toggle="modal" data-target="#modal-contato" href="#">Contato</a>
           </div>
         </div>
@@ -47,15 +99,17 @@
   </header>
 
   <div class="form-container">
-    <form id="video-form" method="post">
+    <form id="video-form" style="border: none;" method="post">
       <div class="form-group d-flex">
-        <input type="text" class="form-control form-control-lg flex-grow-1 mr-2" id="video-url" placeholder="Cole o link aqui">
-        <button type="submit" class="btn btn-primary btn-lg"><i class="fas fa-check"></i></button>
+        <input type="text" class="form-control form-control-lg flex-grow-1 mr-2" style="border-style: outset;" id="video-url" placeholder="Cole o link aqui">
+        <button type="submit" class="btn btn-lg" style="color:#FF3131;background-color:#fff"><i class="fas fa-check"></i></button>
       </div>
     </form>
   </div>
 
-  <div class="card" id="video-card" style="display: none;">
+ 
+
+  <div class="card" id="video-card">
     <div class="card-body d-flex">
       <div class="flex-grow-1">
         <h5 class="card-title" id="video-title"></h5>
@@ -71,12 +125,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>MP4 (Vídeo)</td>
-                <td id="video-size"></td>
-                <td><button type="button" id="download-video" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Vídeo</button></td>
-              </tr>
-              <tr>
+          
                 <td>MP3 (Áudio)</td>
                 <td id="audio-size"></td>
                 <td><button type="button" id="download-audio" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Áudio</button></td>
@@ -103,11 +152,102 @@
     </div>
   </div>
 
+   <!-- Container centralizado com cards -->
+<!-- Container centralizado com cards -->
+<div class="d-flex justify-content-center mt-4">
+  <div class="card-deck" id="card-info">
+    <div class="card border-secondary bg-dark text-white mb-3" style="max-width: 18rem;">
+      <div class="card-header"><i class="fas fa-link" style="color: #ff9900; font-size: 2em;"></i> Passo 1</div>
+      <div class="card-body">
+        <h5 class="card-title">Cole o Link</h5>
+        <p class="card-text text-white">Cole o link do vídeo do YouTube no campo acima.</p>
+      </div>
+    </div>
+    <div class="card border-secondary bg-dark text-white mb-3" style="max-width: 18rem;">
+      <div class="card-header"><i class="fas fa-search" style="color: #33cc33; font-size: 2em;"></i> Passo 2</div>
+      <div class="card-body">
+        <h5 class="card-title">Busque o Vídeo</h5>
+        <p class="card-text text-white">Clique no botão para buscar o vídeo e exibir as informações.</p>
+      </div>
+    </div>
+    <div class="card border-secondary bg-dark text-white mb-3" style="max-width: 18rem;">
+      <div class="card-header"><i class="fas fa-download" style="color: #ff3300; font-size: 2em;"></i> Passo 3</div>
+      <div class="card-body">
+        <h5 class="card-title">Baixe o Áudio</h5>
+        <p class="card-text text-white">Clique no botão de download para baixar o áudio do vídeo.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-4 text-center">
+  <h5>Por favor, avalie nosso site:</h5>
+  <p class="mt-2">Sua avaliação: <span id="rating-value">0</span></p>
+  <div class="rating">
+    <input type="radio" id="star6" name="rating" value="6">
+    <label for="star6"></label>
+    <input type="radio" id="star5" name="rating" value="5">
+    <label for="star5"></label>
+    <input type="radio" id="star4" name="rating" value="4">
+    <label for="star4"></label>
+    <input type="radio" id="star3" name="rating" value="3">
+    <label for="star3"></label>
+    <input type="radio" id="star2" name="rating" value="2">
+    <label for="star2"></label>
+    <input type="radio" id="star1" name="rating" value="1">
+    <label for="star1"></label>
+  </div>
+ 
+</div>
+
+
   <footer class="d-flex justify-content-center align-items-center">
-    <p class="mb-0">&copy; 2024 Seu Site. Todos os direitos reservados.</p>
-    <a href="#" data-toggle="modal" data-target="#modal-politica" style="color: #FFF; font-size: 15px; text-decoration: underline; margin-left: 10px;">Política de Privacidade</a>
+    <p class="mb-0"  style="color: #000; ">&copy; 2024 DLoader. Todos os direitos reservados.</p>
+    <a href="#" data-toggle="modal" data-target="#modal-politica" style="color: #000; font-size: 15px; text-decoration: underline; margin-left: 10px;">Política de Privacidade</a>
  
   </footer>
+
+   <!-- MODAL DLOADER -->
+ <div class="modal fade" id="modal-dloader" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">DLoader</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+    <a class="navbar-brand" href="#" style="color:#000">
+  <img id="logo" src="img/2n.png" alt="DLoader" style="width: 150px;">
+  
+</a>
+<h6>Objetivo do Site</h6>
+          <p>Nosso objetivo é criar uma plataforma abrangente e acessível que permita aos
+          utilizadores baixar e desfrutar de músicas e vídeos de maneira fácil, rápida e segura.</p>
+
+
+          <h6>Missão</h6>
+          <p>Nossa missão é proporcionar uma experiência de download fluida e eficiente, oferecendo uma vasta biblioteca de conteúdo musical e, futuramente, expandindo para incluir uma coleção diversificada de vídeos.
+             Queremos ser a plataforma de escolha para os amantes da música e do vídeo que buscam qualidade, conveniência e uma interface amigável.</p>
+
+             <h6>Visão</h6>
+          <p>Nosso site aspira ser reconhecido como uma referência líder no fornecimento de downloads 
+            de mídia digital, integrando tecnologia de ponta e inovação contínua para atender às necessidades em constante evolução dos nossos usuários.</p>
+<hr>
+             <h6>Funcionalidades Atuais</h6>
+          <p><strong>Download de Música:</strong> Proporcionar uma vasta seleção de músicas de diferentes gêneros e artistas, permitindo aos usuários baixar suas faixas favoritas com facilidade.
+<br>
+<strong>Interface Amigável:</strong> Um design intuitivo e fácil de usar, garantindo que mesmo os usuários menos experientes possam navegar e encontrar o conteúdo desejado sem complicações.
+<br><strong>Qualidade e Segurança: </strong>Garantir que todos os downloads sejam de alta qualidade e livres de qualquer tipo de malware ou ameaça à segurança do usuário.</p>
+
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
  
  <!-- MODAL POLÍTICA -->
@@ -121,8 +261,13 @@
           </button>
         </div>
         <div class="modal-body">
-          <p>Aqui vai a sua política de privacidade...</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi euismod, quam ac volutpat tempor, velit erat ultricies lectus, id luctus quam purus sit amet libero. Nullam eget ligula a nisl consectetur rhoncus. Sed in ipsum orci. Phasellus nec libero odio. In vehicula purus nec justo ultrices, ut ultrices velit luctus.</p>
+    <a class="navbar-brand" href="#" style="color:#000">
+  <img id="logo" src="img/2n.png" alt="DLoader" style="width: 120px;">
+  
+</a>
+          <p>Bem-vindo ao DLoader. Respeitamos sua privacidade e estamos comprometidos em protegê-la.
+             Esta Política de Privacidade descreve nossas práticas de privacidade, 
+            explicando que não coletamos nenhuma informação pessoal dos utilizadores  que visitam e utilizam nosso Site para download.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -170,6 +315,18 @@
   <script>
     const API_KEY = 'AIzaSyC7TMz0gFDq6OOSak_Q94SlmMsfgqGgwI8';
 
+       // Função para buscar e exibir informações do vídeo quando o formulário é enviado
+       function searchVideo() {
+      const videoUrl = $('#video-url').val();
+      const videoId = getYouTubeVideoId(videoUrl);
+      if (videoId) {
+        fetchYouTubeVideo(videoId);
+      } else {
+        alert('Link do vídeo inválido');
+      }
+    }
+
+
     // Função para obter o ID do vídeo do YouTube
     function getYouTubeVideoId(url) {
       const urlObj = new URL(url);
@@ -189,15 +346,14 @@
         $('#video-title').text(snippet.title);
         $('#video-thumbnail').attr('src', snippet.thumbnails.high.url);
         $('#video-card').show();
+        $('#card-info').hide();
 
         // Adicionar link do vídeo
         const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
         $('#video-link').attr('href', videoUrl).show();
 
-        calculateFileSize(duration);
+        calculateMP3FileSize(duration);
 
-        // Modificado para buscar o melhor formato de vídeo disponível
-        $('#download-video').data('href', `baixarVideo.php?videoId=${videoId}&quality=best`);
         $('#download-audio').data('href', `baixarAudio.php?videoIdAudio=${videoId}`); // Adiciona link para baixar áudio
       } else {
         alert('Vídeo não encontrado');
@@ -210,48 +366,32 @@
 }
 
 
-    // Função para calcular o tamanho do arquivo de vídeo
-    function calculateFileSize(duration) {
-      // Considerando um bitrate médio para cálculo do tamanho aproximado
-      const bitrate = 2500; // Exemplo de bitrate em kbps (kilobits por segundo)
-      const sizeInMegabytes = (bitrate * duration) / (8 * 1024); // Convertendo para MB
-      $('#video-size').text(sizeInMegabytes.toFixed(2) + ' MB');
-      $('#audio-size').text((sizeInMegabytes / 3).toFixed(2) + ' MB'); // Tamanho aproximado do arquivo de áudio
-    }
 
-    // Função para buscar e exibir informações do vídeo quando o formulário é enviado
-    function searchVideo() {
-      const videoUrl = $('#video-url').val();
-      const videoId = getYouTubeVideoId(videoUrl);
-      if (videoId) {
-        fetchYouTubeVideo(videoId);
-      } else {
-        alert('Link do vídeo inválido');
-      }
-    }
 
-    // Evento de submissão do formulário para buscar o vídeo
-    $('#video-form').on('submit', function(e) {
-      e.preventDefault();
-      searchVideo();
-    });
+    // Função para calcular o tamanho do arquivo MP3
+function calculateMP3FileSize(duration) {
+  // Considerando um bitrate médio para MP3 (em kbps - kilobits por segundo)
+  const mp3Bitrate = 128; // Exemplo de bitrate em kbps para MP3
 
+  // Convertendo o bitrate de kbps para MB
+  const sizeInMegabytes = (mp3Bitrate * duration) / (8 * 1024); // Convertendo para MB
+
+  $('#audio-size').text(sizeInMegabytes.toFixed(2) + ' MB'); // Tamanho aproximado do arquivo de MP3
+}
+
+
+ 
+ 
     // Evento de input no campo de URL para esconder o card se o campo estiver vazio
     $('#video-url').on('input', function() {
       if (!$(this).val()) {
         $('#video-card').hide();
+        $("#card-info").show();
       } else {
         searchVideo();
       }
     });
 
-    // Evento de clique no botão de download de vídeo
-    $('#download-video').click(function(e) {
-      e.preventDefault();
-      var videoUrl = $(this).data('href');
-      var videoTitle = $('#video-title').text(); // Obtém o título do vídeo
-      startDownload(videoUrl, `${videoTitle}.mp4`);
-    });
 
     // Evento de clique no botão de download de áudio
     $('#download-audio').click(function(e) {
@@ -313,19 +453,4 @@ function startDownload(url, filename) {
   </script>
 </body>
 </html>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Seleciona o elemento do seletor de cor
-    const navbarColorPicker = document.getElementById('navbar-color-picker');
 
-    // Adiciona um evento de mudança à paleta de cor
-    navbarColorPicker.addEventListener('input', function() {
-      // Obtém a cor selecionada
-      const selectedColor = navbarColorPicker.value;
-      
-      // Aplica a cor à barra de navegação
-      const navbar = document.querySelector('.navbar');
-      navbar.style.backgroundColor = selectedColor;
-    });
-  });
-</script>

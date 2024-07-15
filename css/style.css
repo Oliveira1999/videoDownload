@@ -3,8 +3,14 @@ body{
         margin: 0;
         width: 100vw;
          height: 100vh;
-         background: url("../img/banner1.png");
+         background: url("../img/1.png");
          background-size: cover;
+}
+
+.text-nav a{
+    font-weight: bold;
+    color: #000!important;
+    font-size: 18px;
 }
 
 .row{
@@ -16,7 +22,7 @@ body{
 }
 
 p,li{
-    color: #444;
+    color: #000000;
     font-size: 14px;
 }
 
@@ -24,7 +30,7 @@ p,li{
 /* BARRA DE NAVEGACAO */
 
 header, .navbar{
-    background-color: #353041;
+    background-color: #ffffff;
 }
 
 #nav-container {
@@ -48,6 +54,8 @@ header, .navbar{
             justify-content: center;
             align-items: center;
             height: calc(40vh - 80px); /* Calcula a altura para ocupar o restante da tela */
+            border: none;
+        
         }
         form {
             max-width: 1000px; /* Largura máxima do formulário */
@@ -80,7 +88,7 @@ header, .navbar{
         }
 
 footer {
-    background:#000;
+    background:#ffffff;
     padding: 20px 0;
     text-align: center;
    bottom: 0;
@@ -101,3 +109,14 @@ footer p {
     text-decoration: none;
   }
   
+#video-card{
+display: none;
+
+    background-color: rgba(255, 255, 255, 0.5); 
+    font-weight: bold;
+    font-size: 18px;
+
+
+}
+
+
