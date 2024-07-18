@@ -179,7 +179,7 @@
     </div>
   </div>
 </div>
-<div class="container mt-4 text-center">
+<div class="container mt-4 text-center" style="display:none">
   <h5>Por favor, avalie nosso site:</h5>
   <p class="mt-2">Sua avaliação: <span id="rating-value">0</span></p>
   <div class="rating">
@@ -287,10 +287,10 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="contact-form" method="post">
+          <form method="POST" action="envio.php">>
             <div class="form-group">
               <label for="name">Nome:</label>
-              <input type="text" class="form-control" id="name" name="name" required>
+              <input type="text" class="form-control" id="nome" name="nome" required>
             </div>
             <div class="form-group">
               <label for="email">E-mail:</label>
@@ -300,7 +300,7 @@
               <label for="message">Mensagem:</label>
               <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+            <button type="submit" class="btn btn-primary" name ="email">Enviar Mensagem</button>
           </form>
         </div>
       </div>
