@@ -1,24 +1,16 @@
 <?php
-
-require_once('conexao.php');
-
-$query = $pdo->query("SELECT * FROM quant_download");
-$res = $query->FetchAll(PDO::FETCH_ASSOC);
-if (count($res) == 0) {
-    
-    $pdo->query("INSERT INTO quant_download set count ='0'");
-}
+require_once('conexao.php'); // Certifique-se de que este arquivo está corretamente incluído
 
 if (isset($_GET['videoId'])) {
     $videoId = $_GET['videoId'];
-    $outputDir =  'C:/xampp/htdocs/videoDownload/downloads'; // Diretório para downloads
+    $outputDir = 'downloads/'; // Diretório para downloads
 
     // Certifique-se que a pasta 'downloads' existe e tem permissão de escrita
     if (!file_exists($outputDir)) {
         mkdir($outputDir, 0777, true);
     }
 
-    // Comando para baixar o vídeo usando yt-dlp com formato específico
+    // Comando para baixar o vídeo usando yt-dlp (ajustado para yt-dlp)
     $command = "yt-dlp -o \"$outputDir%(title)s.%(ext)s\" https://www.youtube.com/watch?v=$videoId 2>&1";
     
     // Executa o comando e captura a saída
@@ -51,8 +43,7 @@ if (isset($_GET['videoId'])) {
 
         exit;
     } else {
-        // Caso o arquivo não tenha sido encontrado ou o download tenha falhado
-        echo "Erro: Não foi possível baixar o vídeo. Verifique se o vídeo está disponível para download.";
+        echo "Erro: Arquivo não encontrado.";
     }
 } else {
     echo "ID do vídeo não fornecido corretamente.";

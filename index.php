@@ -125,10 +125,16 @@
               </tr>
             </thead>
             <tbody>
-          
+            <tr>
                 <td>MP3 (Áudio)</td>
                 <td id="audio-size"></td>
                 <td><button type="button" id="download-audio" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Áudio</button></td>
+              </tr>
+
+              <tr>
+                <td>MP4 (Video)</td>
+                <td id=""></td>
+                <td><button type="button" id="download-video" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Video</button></td>
               </tr>
             </tbody>
           </table>
@@ -355,6 +361,7 @@
         calculateMP3FileSize(duration);
 
         $('#download-audio').data('href', `baixarAudio.php?videoIdAudio=${videoId}`); // Adiciona link para baixar áudio
+        $('#download-video').data('href', `baixarVideo.php?videoId=${videoId}`);
       } else {
         alert('Vídeo não encontrado');
       }
@@ -401,6 +408,13 @@ function calculateMP3FileSize(duration) {
       startDownload(audioUrl, `${videoTitle}.mp3`);
     });
 
+// Evento de clique no botão de download de vídeo
+$('#download-video').click(function(e) {
+  e.preventDefault();
+  var videoUrl = $(this).data('href');
+  var videoTitle = $('#video-title').text(); // Obtém o título do vídeo
+  startDownload(videoUrl, `${videoTitle}.mp4`);
+});
 
 function startDownload(url, filename) {
   // Mostra mensagem de "Aguarde um momento"
@@ -443,7 +457,23 @@ function startDownload(url, filename) {
 
       // Remove a classe de animação da barra de progresso ao concluir o download
       $('#progress-bar').removeClass('progress-bar-animated');
+    } else {
+      // Exibe mensagem de erro se o status não for 200
+      $('#loading-message').hide();
+      $('#progress').hide();
+      $('#downloaded-message').hide();
+      alert('Erro: Não foi possível baixar o vídeo. Verifique se o vídeo está disponível para download.');
+      console.error('Erro na requisição: Status', this.status, 'Resposta:', this.responseText);
     }
+  };
+
+  xhr.onerror = function() {
+    // Exibe mensagem de erro se ocorrer um erro na requisição
+    $('#loading-message').hide();
+    $('#progress').hide();
+    $('#downloaded-message').hide();
+    alert('Erro: Não foi possível completar o download. Verifique a URL ou a sua conexão.');
+    console.error('Erro de rede ou outro problema.');
   };
 
   xhr.send();
@@ -453,4 +483,3 @@ function startDownload(url, filename) {
   </script>
 </body>
 </html>
-
