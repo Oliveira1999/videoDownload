@@ -1,11 +1,11 @@
 <?php
 require_once('conexao.php');
 
+// Verificar e inicializar o contador de downloads, se necessário
 $query = $pdo->query("SELECT * FROM quant_download_audio");
-$res = $query->FetchAll(PDO::FETCH_ASSOC);
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
 if (count($res) == 0) {
-    
-    $pdo->query("INSERT INTO quant_download_audio set count ='0'");
+    $pdo->query("INSERT INTO quant_download_audio (count) VALUES (0)");
 }
 
 if (isset($_GET['videoIdAudio'])) {
@@ -20,15 +20,15 @@ if (isset($_GET['videoIdAudio'])) {
 
     // Comando para baixar o áudio usando yt-dlp
     $command = "yt-dlp --ffmpeg-location \"$ffmpegPath\" --extract-audio --audio-format mp3 -o \"$outputDir%(title)s.%(ext)s\" https://www.youtube.com/watch?v=$videoId 2>&1";
-    
     $output = shell_exec($command);
 
     // Verifica se o download foi concluído e obtém o caminho do arquivo
     $downloadPath = glob($outputDir . "*.mp3")[0] ?? null;
 
     if ($downloadPath && file_exists($downloadPath)) {
+        incrementarQuantidadeDownloads($pdo);
+        
         // Define cabeçalhos para o download do arquivo
-          incrementarQuantidadeDownloads($pdo);
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . basename($downloadPath) . '"');
@@ -50,7 +50,6 @@ if (isset($_GET['videoIdAudio'])) {
 } else {
     echo "ID do vídeo não fornecido corretamente.";
 }
-
 
 function incrementarQuantidadeDownloads($pdo) {
     try {

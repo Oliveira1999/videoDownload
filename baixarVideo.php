@@ -1,6 +1,14 @@
 <?php
 require_once('conexao.php'); // Certifique-se de que este arquivo está corretamente incluído
 
+// Verificar e inicializar o contador de downloads, se necessário
+$query = $pdo->query("SELECT * FROM quant_download");
+$res = $query->fetchAll(PDO::FETCH_ASSOC);
+if (count($res) == 0) {
+    $pdo->query("INSERT INTO quant_download (count) VALUES (0)");
+}
+
+
 if (isset($_GET['videoId'])) {
     $videoId = $_GET['videoId'];
     $outputDir = 'downloads/'; // Diretório para downloads

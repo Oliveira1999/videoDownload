@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DLoader</title>
+  
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0"  name="description" content="Baixe vídeos 
+  e áudios online facilmente com o DLoader. Oferecemos downloads rápidos e de alta qualidade.">
+  <title>Baixar Vídeos e Áudios Online </title>
   <!-- Fonte -->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
   <!-- Estilos -->
@@ -132,8 +133,8 @@
               </tr>
 
               <tr>
-                <td>MP4 (Video)</td>
-                <td id=""></td>
+              <td>MP4 (Vídeo) HD</td>
+                <td id="video-size"></td>
                 <td><button type="button" id="download-video" class="btn btn-outline-danger btn-lg btn-block"><i class="fas fa-download"></i> Baixar Video</button></td>
               </tr>
             </tbody>
@@ -142,10 +143,23 @@
         <p class="card-text" id="video-description"></p>
       </div>
     </div>
-    <!-- Barra de progresso -->
-    <div class="progress" id="progress" style="margin-top: 10px; margin-bottom: 5px; display: none;">
-      <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-    </div>
+    <style>
+@keyframes move {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, rgba(0, 255, 0, 0.5) 25%, rgba(0, 255, 0, 0) 50%, rgba(0, 255, 0, 0.5) 75%);
+  background-size: 200% 100%;
+  animation: move 2s linear infinite;
+}
+</style>
+
+<div class="progress" id="progress" style="margin-top: 5px; margin-bottom: 5px; display: none;">
+  <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
 
     <!-- Mensagem de aguarde -->
     <div id="loading-message" class="text-center mt-2" style="display: none;">
@@ -240,9 +254,9 @@
           <p>Nosso site aspira ser reconhecido como uma referência líder no fornecimento de downloads 
             de mídia digital, integrando tecnologia de ponta e inovação contínua para atender às necessidades em constante evolução dos nossos usuários.</p>
 <hr>
-             <h6>Funcionalidades Atuais</h6>
+            <!-- <h6>Funcionalidades Atuais</h6>
           <p><strong>Download de Música:</strong> Proporcionar uma vasta seleção de músicas de diferentes gêneros e artistas, permitindo aos usuários baixar suas faixas favoritas com facilidade.
-<br>
+  --><br>
 <strong>Interface Amigável:</strong> Um design intuitivo e fácil de usar, garantindo que mesmo os usuários menos experientes possam navegar e encontrar o conteúdo desejado sem complicações.
 <br><strong>Qualidade e Segurança: </strong>Garantir que todos os downloads sejam de alta qualidade e livres de qualquer tipo de malware ou ameaça à segurança do usuário.</p>
 
@@ -359,6 +373,7 @@
         $('#video-link').attr('href', videoUrl).show();
 
         calculateMP3FileSize(duration);
+        calculateMP4FileSize(duration)
 
         $('#download-audio').data('href', `baixarAudio.php?videoIdAudio=${videoId}`); // Adiciona link para baixar áudio
         $('#download-video').data('href', `baixarVideo.php?videoId=${videoId}`);
@@ -387,6 +402,18 @@ function calculateMP3FileSize(duration) {
 }
 
 
+    // Função para calcular o tamanho do arquivo MP4
+function calculateMP4FileSize(duration) {
+  // Considerando um bitrate médio para MP4 (em kbps - kilobits por segundo)
+  const mp4Bitrate = 4000; // Exemplo de bitrate em kbps para vídeo HD (720p)
+
+  // Convertendo o bitrate de kbps para MB
+  const sizeInMegabytes = (mp4Bitrate * duration) / (8 * 1024); // Convertendo para MB
+
+  $('#video-size').text(sizeInMegabytes.toFixed(2) + ' MB'); // Tamanho aproximado do arquivo de MP4
+}
+
+
  
  
     // Evento de input no campo de URL para esconder o card se o campo estiver vazio
@@ -406,6 +433,8 @@ function calculateMP3FileSize(duration) {
       var audioUrl = $(this).data('href');
       var videoTitle = $('#video-title').text(); // Obtém o título do vídeo
       startDownload(audioUrl, `${videoTitle}.mp3`);
+      document.getElementById('download-audio').disabled = true;
+      document.getElementById('download-video').disabled = true;
     });
 
 // Evento de clique no botão de download de vídeo
@@ -414,6 +443,8 @@ $('#download-video').click(function(e) {
   var videoUrl = $(this).data('href');
   var videoTitle = $('#video-title').text(); // Obtém o título do vídeo
   startDownload(videoUrl, `${videoTitle}.mp4`);
+  document.getElementById('download-audio').disabled = true;
+  document.getElementById('download-video').disabled = true;
 });
 
 function startDownload(url, filename) {
@@ -457,6 +488,9 @@ function startDownload(url, filename) {
 
       // Remove a classe de animação da barra de progresso ao concluir o download
       $('#progress-bar').removeClass('progress-bar-animated');
+          // Reativa ambos os botões após o download
+          document.getElementById('download-audio').disabled = false;
+      document.getElementById('download-video').disabled = false;
     } else {
       // Exibe mensagem de erro se o status não for 200
       $('#loading-message').hide();
@@ -464,6 +498,7 @@ function startDownload(url, filename) {
       $('#downloaded-message').hide();
       alert('Erro: Não foi possível baixar o vídeo. Verifique se o vídeo está disponível para download.');
       console.error('Erro na requisição: Status', this.status, 'Resposta:', this.responseText);
+
     }
   };
 
@@ -478,6 +513,8 @@ function startDownload(url, filename) {
 
   xhr.send();
 }
+
+
 
 
   </script>
